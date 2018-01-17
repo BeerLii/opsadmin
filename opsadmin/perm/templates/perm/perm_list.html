@@ -1,0 +1,59 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+<br>
+  <row>
+    <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">授权权限列表</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            {% paginate perm_list 10 %}
+
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID号</th>
+                  <th>授权名称</th>
+                  <th>授权的权限</th>
+                  <th>系统用户</th>
+                  <th>主机资产组</th>
+                  <th>创建时间</th>
+                  <th>描述</th>
+                  <th>操作</th>
+                </tr>
+                {% for perm_obj in list %}
+                  <tr>
+                    <td>{{ forloop.counter  }}</td>
+                    <td>{{ perm_obj.name }}</td>
+                    <td>{{ perm_obj.perm }}</td>
+                    <td>{{ perm_obj.SystemUser.name }}</td>
+                    <td>{{ perm_obj.asset_group.name }}</td>
+                    <td>{{ perm_obj.CreateTime }}</td>
+                    <td>{{ perm_obj.descriptions }}</td>
+                    <td><a href="{% url 'perm:perm_asset_host_connect_list' name=perm_obj.name %}"><span class="label label-success">连接资产组主机</span></a><a href="{% url 'perm:perm_delete' pk=perm_obj.id %}"><span class="label label-danger">删除授权</span></a></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          {% include 'pagination.html' %}
+
+          <!-- /.box -->
+        </div>
+  </row>
+{% endblock %}
+

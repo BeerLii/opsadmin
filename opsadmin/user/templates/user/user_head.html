@@ -1,0 +1,223 @@
+
+{% extends 'index_template.html' %}
+{% load static %}
+{% block extra_head %}
+
+    <link rel="stylesheet" href="{% static 'dist/css/cropper.css' %}" rel="stylesheet">
+
+    <style>
+        .avatar-wrapper {
+          height: 370px;
+          width: 100%;
+          margin-top: 15px;
+          box-shadow: inset 0 0 5px rgba(0,0,0,.25);
+          background-color: #fcfcfc;
+          overflow: hidden;
+        }
+
+        .avatar-wrapper img { display: block; height: auto; max-width: 100%;}
+
+        /*头像预览*/
+        .avatar-preview {
+          margin-top: 15px;
+          margin-right: 15px;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          background-color: #fff;
+          overflow: hidden;
+          height: 96px;
+          width: 96px;
+        }
+
+        .avatar-preview:hover { border-color: #ccf; box-shadow: 0 0 5px rgba(0,0,0,.15);}
+
+                /*在线图片*/
+        .avatar_online_img img{
+            width: 96px;
+            margin: 0 0 5px 5px;
+            border: 1px #ccc solid;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .avatar_online_img img:hover{
+            border-color: #bbb;
+            box-shadow: 0 0 5px rgba(0,0,0,.25);
+        }
+
+        /*不同屏幕改变头像大小*/
+        @media (max-width:485px){
+          .avatar_online_img img{ width: 72px;}
+        }
+        @media (max-width:388px){
+          .avatar_online_img img{ width: 48px;}
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <br>
+    <row>
+        <div class="col-sm-10">
+                <!--编辑区域-->
+                <div class="avatar-wrapper" id='avatar-wrapper'>
+                    <img src="">
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <!--头像预览-->
+                <div class="avatar_crop">
+                    <div class="avatar-preview"><img style="width: 96px; height: 96px;" src="{% static user_img_location %}?v={{random_num}}"></div>
+                    <a id="avatar-upload" href="#" class="btn btn-primary disabled">上传头像</a>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <!--编辑相关数据-->
+            <form id="avatar_form">
+                <div>
+                    <input type="hidden" id="avatar_x" name="avatar_x">
+                    <input type="hidden" id="avatar_y" name="avatar_y">
+                    <input type="hidden" id="avatar_width" name="avatar_width">
+                    <input type="hidden" id="avatar_height" name="avatar_height">
+                </div>
+
+            <label id="avatar_online" class="btn btn-primary" for="avatar_online">在线图片</label>
+            <input style="display:none"  id="avatar_online_input" name="avatar_online" >
+            <label class="btn btn-primary" for="avatar-input">本地图片</label>
+            <input style="display:none" type="file" class="avatar-input" id="avatar-input" name="avatar_file" accept=".jpg,.jpeg,.png">
+            </form>
+            </div>
+
+
+            <div class="modal fade avatar-online-modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">捏脸 - 歪脖 (点一个试试)</h4>
+                    </div>
+
+                    <div class="modal-body" style="text-align: center;">
+                        <div class="avatar_online_img">
+                       {% for key,pic_list in head_pic_dict.items %}
+                            <div>
+
+                                        {% for pic in pic_list %}
+                                            <img src="{% static 'dist/img/local/' %}{{ pic }}" />
+                                        {% endfor %}
+
+                            </div>
+                       {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </row>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'dist/js/cropper.js' %}"></script>
+    <script type="text/javascript">
+    $(function(){
+        //初始化裁剪器
+        var image = $('#avatar-wrapper img');
+        image.cropper({
+            checkImageOrigin: true, //检查图片来源
+            dragMode: 'move',   //图片可移动
+            restore:false,      //窗体调整大小之后不自动恢复裁剪区域
+            zoomOnWheel: false, //不允许通过鼠标滚轮缩放
+            zoomOnTouch: false, //不允许通过触摸缩放
+            aspectRatio: 1 / 1, //裁剪比例
+            autoCropArea: 0.5,  //裁剪背景透明度
+            autoCropArea: 1,    //自动裁剪的比例
+
+            //文本的jQuery选择表达式，一个div
+            preview: $(".avatar-preview").selector,
+            crop: function (e) {
+                //返回图片编辑相关数据
+                $('#avatar_x').val(e.x);
+                $('#avatar_y').val(e.y);
+                $('#avatar_width').val(e.width);
+                $('#avatar_height').val(e.height);
+            },
+        });
+
+
+    $("#avatar-input").change(function(){
+        var files = this.files;
+        if (files && files.length){
+            var file = files[0];
+            if (/^image\/\w+$/.test(file.type)) {
+              var blobURL = URL.createObjectURL(file);
+              image.cropper('reset').cropper('replace', blobURL);
+              $('.avatar_crop .disabled').removeClass('disabled');
+            } else {
+              error_tip('请选择一张图片');
+            }
+        }
+
+});
+
+    $(".avatar_online_img img").click(function(){
+    $(".avatar-online-modal").modal('hide');
+
+    //设置在线图片
+    var path = $(this).attr('src');
+    image.cropper('replace', path);
+
+    $("#avatar_online_input").val(path);
+
+
+    $('.avatar_crop .disabled').removeClass('disabled');
+
+});
+
+    });
+
+     $("#avatar_online").click(function(){
+
+        $(".avatar-online-modal").modal('show');
+    });
+
+     $("#avatar-upload").click(function(){
+
+        if($($('#avatar-wrapper img')[2]).attr('src')==''){
+            alert('亲~ 你是不是忘记选择图片了');
+            return false;
+        }
+
+        //注意：FormData中的[0]是必备的
+        var formData = new FormData($("#avatar_form")[0]);
+        $.ajax({
+            url: "{% url 'user:head_update'%}",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data){
+
+                $("#avatar_online_input").val("");
+                if(data){
+                    alert("上传头像成功");
+                }else{
+                    alert("上传头像失败");
+                }
+
+
+            },
+            error: function (err) {
+                alert("提交失败，请重试！" + err);
+            }
+        });
+        return false;
+    });
+
+
+
+    </script>
+{% endblock %}

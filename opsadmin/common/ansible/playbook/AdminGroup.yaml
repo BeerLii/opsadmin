@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+   - name: "添加或删除admin权限"
+     user:
+      name: "{{ username }}"
+      groups: "{{ admin_group }}"
+
+

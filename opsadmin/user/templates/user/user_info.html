@@ -1,0 +1,45 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+<br>
+<div class="row">
+  <div class="box box-primary">
+              <div class="box-body box-profile">
+                <img class="profile-user-img img-responsive img-circle" src="{% static request.user.user_img %}?v={% random_code 2 %}" alt="User profile picture">
+
+                <h3 class="profile-username text-center">{{ request.user.name }}</h3>
+
+                <p class="text-muted text-center">{{ request.user.get_department }}</p>
+
+                <ul class="list-group list-group-unbordered">
+                  <li class="list-group-item">
+                    <b>UserName</b> <a class="pull-right">{{request.user.username}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Role</b> <a class="pull-right">{{request.user.get_user_role}}</a>
+                  </li>
+                    <li class="list-group-item">
+                    <b>CreateTime</b> <a class="pull-right">{{request.user.CreateTime}}</a>
+                  </li>
+                    <li class="list-group-item">
+                    <b>LastLogin</b> <a class="pull-right">{{request.user.last_login}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Email</b> <a class="pull-right">{{request.user.email}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>CellPhoneNumber</b> <a class="pull-right">{{request.user.CellPhoneNumber}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>WeChat</b> <a class="pull-right">{{request.user.wechat}}</a>
+                  </li>
+                   <li class="list-group-item">
+                    <b>Description</b> <a class="pull-right">{{request.user.description}}</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.box-body -->
+   </div>
+</div>
+{% endblock %}

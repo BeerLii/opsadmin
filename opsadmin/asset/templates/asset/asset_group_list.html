@@ -1,0 +1,91 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+<br>
+<row>
+     <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">总资产列表</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            {% paginate asset_group_data 10 %}
+
+            <div class="box-body table-responsive no-padding">
+
+              <table class="table table-hover">
+                <tr>
+                  <th>ID号</th>
+                  <th>资产组名字</th>
+                  <th>资产数目</th>
+                  <th>资产描述</th>
+                  <th>操作</th>
+                </tr>
+               {% for asset_group in list %}
+                    <tr>
+                      <td>{{ forloop.counter  }}</td>
+                      <td>{{ asset_group.asset_group_name }}</td>
+                      <td>{{ asset_group.asset_count }}</td>
+                      <td>{{ asset_group.asset_group_descriptions }}</td>
+                      <td><a href="{% url 'asset:asset_group_detail' pk=asset_group.id %}"><span class="label label-info">资产组详细信息</span></a>&nbsp;<a href="{% url 'asset:asset_group_delete' pk=asset_group.id %}"><span class="label label-danger">删除资产组</span></a></td>
+                    </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+         {% include 'pagination.html' %}
+
+          <!-- /.box -->
+        </div>
+    </row>
+{% endblock%}
+
+{% block scripts %}
+    <script type="text/javascript">
+     $.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     }
+});
+     function delete_asset_group(asset_group_id) {
+          $.ajax({
+               url: '/api/asset/group/delete/' + asset_group_id,
+               type:'DELETE',
+               success : function (result) {
+                   console.log(result);
+
+               }
+            });
+     }
+     </script>
+{% endblock %}

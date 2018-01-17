@@ -1,0 +1,16 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+<br>
+ <form action="" method="post">
+      {% csrf_token %}
+      {% if form.errors %}
+          {% for k, message in form.errors.items %}
+            <p class="red-fonts">{{message}}</p>
+          {% endfor %}
+      {% endif %}
+      {{ form.as_p }}
+     <button type="submit" class="btn btn-primary btn-block btn-flat">修改</button>
+
+ </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+---
+- hosts: all
+  tasks:
+   - name: "添加用户组"
+     group:
+      name: "{{ groupname }}"
+      state: present
+
+   - name: "添加用户"
+     user:
+      name: "{{ username }}"
+      group: "{{ groupname }}"
+      groups: "{{ admin_group }}"
+      state: present
+
+   - name: "添加用户密码"
+     shell: "echo {{ password }} | passwd --stdin {{ username }}"
+     when: password is defined
+
+   - name: "添加用户公钥"
+     authorized_key:
+      user: "{{ username }}"
+      state: present
+      key: "{{ key_data }}"
+      manage_dir: False
+     when: key_data is defined
+

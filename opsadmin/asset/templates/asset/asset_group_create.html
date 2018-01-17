@@ -1,0 +1,60 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block extra_head %}
+    <link href="{% static "dist/css/multi-select.css" %}" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+<br>
+<row>
+     <form enctype="multipart/form-data" action="" method="post">
+
+                  {% csrf_token %}
+                  {% if form.errors %}
+                      {% for k, message in form.errors.items %}
+                        <p class="red-fonts">{{message}}</p>
+                      {% endfor %}
+                  {% endif %}
+        <div class="form-group">
+            <label class="col-md-2 control-label">资产组名</label>
+            <div class="col-md-9">
+            <input type="text" class="form-control" placeholder="AssetGroupName" required="" name="{{ form.name.html_name }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+             <label class="col-md-2 control-label">添加资产到资产组</label>
+            <div class="col-md-9">
+                <select multiple="multiple" id="asset-select" name="{{ form.asset_choices.html_name }}" class="form-control">
+                    {% for asset in form.asset_choices.field.queryset %}
+                        <option value="{{ asset.id }}">{{ asset.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">描述信息</label>
+             <div class="col-md-9">
+                <textarea type="text" class="form-control" placeholder="Description" name="{{ form.descriptions.html_name }}"></textarea>
+             </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-9">
+            <button type="submit" class="btn btn-primary btn-block btn-flat form-control">确定</button>
+            </div>
+        </div>
+     </form>
+</row>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "dist/js/jquery.multi-select.js" %}"></script>
+    <script type="text/javascript">
+
+            $('#asset-select').multiSelect({ keepOrder: true ,  selectableHeader: "<div class='custom-header'>待选资产</div>",
+  selectionHeader: "<div class='custom-header'>已选资产</div>"})
+    </script>
+{% endblock %}

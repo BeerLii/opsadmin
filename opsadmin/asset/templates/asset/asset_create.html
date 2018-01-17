@@ -1,0 +1,108 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+          <br>
+          <row>
+
+                <div class="box box-danger">
+                  <div class="box-header">
+                    <h3 class="box-title">新资产创建</h3>
+                  </div>
+                  <form enctype="multipart/form-data" action="" method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        {% for k, message in form.errors.items %}
+                          <p class="red-fonts">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                  <div class="box-body">
+
+
+                    <!-- phone mask -->
+                    <div class="form-group">
+                      <label>name:</label>
+
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-server"></i>
+                        </div>
+                        <input type="text" class="form-control"  name="{{ form.name.html_name }}">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+
+                    <!-- phone mask -->
+                    <div class="form-group">
+                      <label>资产类型:</label>
+                      <div class="input-group">
+                        <select class="form-control" name="{{form.asset_type.html_name}}">
+                          {% for val in form.asset_type %}
+                                {{ val }}
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                      <div class="form-group">
+                      <label>管理ip:</label>
+
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                        </div>
+                        <input type="text" class="form-control"  name="{{ form.manage_ip.html_name }}">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+
+
+                      <div class="form-group">
+                      <label>外部ip:</label>
+
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                        </div>
+                        <input type="text" class="form-control"  name="{{ form.external_ip.html_name }}">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+
+
+                      <div class="form-group">
+                      <label>资产环境:</label>
+                      <div class="input-group">
+                        <select class="form-control" name="{{form.asset_env.html_name}}">
+                          {% for val in form.asset_env %}
+                                {{ val }}
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+
+
+
+
+                    <!-- /.form group -->
+                    <div class="form-group">
+                      <label>description:</label>
+
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa-audio-description"></i>
+                        </div>
+                        <input type="text" class="form-control" name="{{ form.descriptions.html_name }}">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+
+                     <div>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div>
+                  </div>
+                    </form>
+                  <!-- /.box-body -->
+                </div>
+            </row>
+{% endblock %}

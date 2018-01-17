@@ -1,0 +1,61 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+<br>
+  <row>
+    <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">{{ object.name }}资产组的资产列表</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID号</th>
+                  <th>资产名字</th>
+                  <th>资产类型</th>
+                  <th>资产状态</th>
+                  <th>资产环境</th>
+                  <th>管理IP</th>
+                  <th>外部IP</th>
+                  <th>创建时间</th>
+                  <th>描述信息</th>
+
+                </tr>
+               {% for asset_obj in asset_list %}
+                    <tr>
+                      <td>{{ forloop.counter  }}</td>
+                      <td>{{ asset_obj.name }}</td>
+                      <td>{{ asset_obj.get_asset_type }}</td>
+                      {% if asset_obj.asset_status == 'Online' %}
+                        <td><span class="label label-success">{{ asset_obj.get_asset_status }}</span></td>
+                      {% endif %}
+                      {% if asset_obj.asset_status == 'Not Online' %}
+                        <td><span class="label label-danger">{{ asset_obj.get_asset_status }}</span></td>
+                      {% endif %}
+                      <td>{{ asset_obj.get_asset_env }}</td>
+                      <td>{{ asset_obj.manage_ip }}</td>
+                      <td>{{ asset_obj.external_ip }}</td>
+                      <td>{{ asset_obj.create_date }}</td>
+                      <td>{{ asset_obj.descriptions }}</td>
+                    </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+</row>
+{% endblock %}

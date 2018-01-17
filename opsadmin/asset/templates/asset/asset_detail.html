@@ -1,0 +1,156 @@
+
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+    <br>
+    <row>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="" class="text-center"><i class="fa fa-laptop"></i> 资产详情 </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="col-sm-7" style="padding-left: 0">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <span class="label"><b style="color: #0c0c0c">资产名字:  {{ asset_obj.name }}</b></span>
+
+                                    </div>
+                                    <div class="ibox-content">
+                                        <table class="table">
+                                            <tbody>
+                                            <tr class="no-borders-tr">
+                                                <td width="20%">资产类型:</td>
+                                                <td><b>{{ asset_obj.get_asset_type }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>服务器SN:</td>
+                                                <td><b>{{ server_obj.sn }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>服务器model:</td>
+                                                <td><b>{{ server_obj.model}}</b></td>
+                                            </tr>
+                                             <tr>
+                                                <td>服务器操作系统类型:</td>
+                                                <td><b>{{ server_obj.os_type}}</b></td>
+                                            </tr>
+                                             <tr>
+                                                <td>服务器操作系统发行版本:</td>
+                                                <td><b>{{ server_obj.os_distribution}}</b></td>
+                                            </tr>
+                                             <tr>
+                                                <td>服务器操作系统版本:</td>
+                                                <td><b>{{ server_obj.os_release}}</b></td>
+                                            </tr>
+                                             <tr>
+                                                <td>服务器CPU model:</td>
+                                                <td><b>{{ cpu_obj.cpu_model }}</b></td>
+                                            </tr>
+                                               <tr>
+                                                <td>服务器CPU数量:</td>
+                                                <td><b>{{ cpu_obj.cpu_count }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>服务器CPU核心数量:</td>
+                                                <td><b>{{ cpu_obj.cpu_core_count }}</b></td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                            内存资产信息
+                        </h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+
+
+                            <table class="table">
+
+                                <tbody>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>内存插槽</th>
+                                                <th>sn号</th>
+                                                <th>内存的model</th>
+                                                <th>内存大小(MB)</th>
+                                            </tr>
+                                          {% for ram in ram_obj %}
+                                            <tr>
+                                                <td>{{ forloop.counter  }}</td>
+                                                 <td>{{ ram.slot }}</td>
+                                                <td>{{ ram.sn }}</td>
+                                                <td>{{ ram.model }}</td>
+                                                <td>{{ ram.capacity }}</td>
+
+                                            </tr>
+                                          {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                            网卡资产信息
+                        </h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+
+
+                            <table class="table">
+
+                                <tbody>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>名字</th>
+                                                <th>sn号</th>
+                                                <th>网卡的model</th>
+                                                <th>物理地址</th>
+                                                <th>ip地址</th>
+                                                <th>子网掩码</th>
+                                                <th>bonding</th>
+                                            </tr>
+                                          {% for nic in nic_obj %}
+                                            <tr>
+                                                <td>{{ forloop.counter  }}</td>
+                                                 <td>{{ nic.name }}</td>
+                                                <td>{{ nic.sn }}</td>
+                                                <td>{{ nic.model }}</td>
+                                                <td>{{ nic.macaddress }}</td>
+                                                <td>{{ nic.ipaddress }}</td>
+                                                <td>{{ nic.netmask }}</td>
+                                                <td>{{ nic.bonding }}</td>
+                                            </tr>
+                                          {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </row>
+{% endblock %}

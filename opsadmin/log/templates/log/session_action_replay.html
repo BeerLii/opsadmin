@@ -1,0 +1,16 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block extra_head %}
+      <link rel="stylesheet" href="{% static "dist/css/asciinema-player.css" %}">
+{% endblock %}
+{% block content %}
+    <br>
+    <row>
+        <h1>回话操作回放</h1>
+        <asciinema-player src="{% static  log_path  %}"></asciinema-player>
+    </row>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "dist/js/asciinema-player.js" %}"></script>
+
+{% endblock %}

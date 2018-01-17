@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "width": 90,
+  "height": 40,
+  "duration": 31.404917,
+  "command": "/bin/zsh",
+  "title": null,
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      4.1961669921875e-05,
+      "Last login: Thu Jan 11 06:57:31 2018 from 192.168.5.1\r\r\n"
+    ],
+    [
+      0.25853800773620605,
+      "\u001b]0;langlang@bwei:~\u0007\u001b[?1034h[langlang@bwei ~]$ "
+    ],
+    [
+      2.2433431148529053,
+      "\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ],
+    [
+      5.921941041946411,
+      "\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ],
+    [
+      0.08459186553955078,
+      "\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ],
+    [
+      4.894474267959595,
+      "s"
+    ],
+    [
+      0.22088384628295898,
+      "u"
+    ],
+    [
+      0.7536959648132324,
+      "d"
+    ],
+    [
+      0.13474392890930176,
+      "o"
+    ],
+    [
+      0.6456732749938965,
+      " "
+    ],
+    [
+      5.757129907608032,
+      "l"
+    ],
+    [
+      0.0228118896484375,
+      "s"
+    ],
+    [
+      1.9639160633087158,
+      " "
+    ],
+    [
+      0.8144330978393555,
+      "/"
+    ],
+    [
+      0.7905089855194092,
+      "\r\n"
+    ],
+    [
+      0.41359376907348633,
+      "bin   dev  home  lib64\t     media  mnt  opt   root  selinux  sys  usr\r\nboot  etc  lib\t lost+found  misc   net  proc  sbin  srv      tmp  var\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ]
+  ]
+}

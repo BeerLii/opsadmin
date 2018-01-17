@@ -1,0 +1,63 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+    <br>
+    <row>
+      <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">所有回话操作列表</h3>
+
+                <div class="box-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-header -->
+              {% paginate session_action_list 10 %}
+
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                  <tr>
+                    <th>ID号</th>
+                    <th>用户</th>
+                    <th>系统用户</th>
+                    <th>主机资产组</th>
+                    <th>主机名字</th>
+                    <th>主机管理IP</th>
+                    <th>登入操作的权限</th>
+                    <th>回话操作开始时间</th>
+                    <th>回话操作结束时间</th>
+                    <th>操作</th>
+                  </tr>
+                  {% for log_obj in list %}
+                    <tr>
+                      <td>{{ forloop.counter  }}</td>
+                      <td>{{ log_obj.User }}</td>
+                      <td>{{ log_obj.SystemUser }}</td>
+                      <td>{{ log_obj.AssetGroup }}</td>
+                      <td>{{ log_obj.Asset.name }}</td>
+                      <td>{{ log_obj.Asset.manage_ip }}</td>
+                      <td>{{ log_obj.get_system_user_perm }}</td>
+                      <td>{{ log_obj.StartTime }}</td>
+                      <td>{{ log_obj.EndTime }}</td>
+                      <td><a onclick=window.open("{% url 'log:session_action_replay' pk=log_obj.id %}")><span class="label label-success">查看该回话回放</span></a><a href="{% url 'log:session_action_delete' pk=log_obj.id %}"><span class="label label-danger">删除回话日志</span></a></td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            {% include 'pagination.html' %}
+
+            <!-- /.box -->
+          </div>
+      </row>
+{% endblock %}
+

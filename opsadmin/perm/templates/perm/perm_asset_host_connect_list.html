@@ -1,0 +1,58 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+  <br>
+  <row>
+     <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">{{ perm_name }}的授权的资产主机列表</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            {% paginate asset_host_list 10 %}
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID号</th>
+                  <th>主机名</th>
+                  <th>主机连接管理IP</th>
+                  <th>操作</th>
+                </tr>
+                {% for asset_host_obj in list %}
+                  <tr>
+                    <td>{{ forloop.counter  }}</td>
+                    <td>{{ asset_host_obj.name }}</td>
+                    <td>{{ asset_host_obj.manage_ip }}</td>
+                    <td><a onclick=window.open("{% url 'asset:asset_connect' perm_name=perm_name asset_name=asset_host_obj.name system_user=system_user_name %}")><span class="label label-success">连接主机</span></a></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          {% include 'pagination.html' %}
+
+          <!-- /.box -->
+        </div>
+    </row>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+      function connect_host(asset_host) {
+        ;
+      }
+
+    </script>
+{% endblock %}

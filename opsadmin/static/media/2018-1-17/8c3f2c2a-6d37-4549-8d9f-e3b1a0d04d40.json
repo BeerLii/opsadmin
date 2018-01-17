@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "width": 90,
+  "height": 40,
+  "duration": 26.842777,
+  "command": "/bin/zsh",
+  "title": null,
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      3.4809112548828125e-05,
+      "Last login: Fri Jan 12 05:14:58 2018 from 192.168.5.1\r\r\n"
+    ],
+    [
+      0.04758596420288086,
+      "\u001b]0;langlang@bwei:~\u0007\u001b[?1034h[langlang@bwei ~]$ "
+    ],
+    [
+      4.487942218780518,
+      "\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ],
+    [
+      1.1931960582733154,
+      "l"
+    ],
+    [
+      7.695369005203247,
+      "s"
+    ],
+    [
+      0.028888702392578125,
+      "\r\n\u001b]0;langlang@bwei:~\u0007[langlang@bwei ~]$ "
+    ]
+  ]
+}

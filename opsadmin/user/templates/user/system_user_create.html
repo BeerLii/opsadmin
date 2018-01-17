@@ -1,0 +1,141 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+  <br>
+      <row>
+          <div class="box box-danger">
+            <div class="box-header">
+              <h3 class="box-title">系统用户创建</h3>
+            </div>
+            <form enctype="multipart/form-data" action="" method="post">
+              {% csrf_token %}
+              {% if form.errors %}
+                  {% for k, message in form.errors.items %}
+                    <p class="red-fonts">{{message}}</p>
+                  {% endfor %}
+              {% endif %}
+
+            <div class="box-body">
+
+
+              <!-- phone mask -->
+              <div class="form-group">
+                <label>name:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-user-md"></i>
+                  </div>
+                  <input type="text" class="form-control"  name="{{ form.name.html_name }}">
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+
+              <!-- phone mask -->
+              <div class="form-group">
+                <label>username:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <input type="text" class="form-control" name="{{ form.UserName.html_name }}">
+                </div>
+                <!-- /.input group -->
+              </div>
+              <!-- /.form group -->
+
+              <!-- IP mask -->
+                <div class="form-group">
+                <label>认证方式:</label>
+
+
+                  <select id="sel" class="form-control" onchange="auth_way(this.options[this.options.selectedIndex].value)">
+                    <option value="key"  selected >秘钥</option>
+                    <option value="password">密码</option>
+                  </select>
+
+                <!-- /.input group -->
+              </div>
+
+              <div id="key-block" style="display: none">
+              <div class="form-group">
+                <label>private_key:</label>
+
+                <div class="input-group">
+
+                  <input type="file" class="form-control" name="private_key_file">
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
+
+              <div id="password-block" style="display: none">
+              <div class="form-group">
+                <label>password:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-key"></i>
+                  </div>
+                  <input type="password" class="form-control" name="{{ form.password1.html_name }}">
+                </div>
+                <!-- /.input group -->
+              </div>
+
+              <div class="form-group">
+                <label>re-password:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-key"></i>
+                  </div>
+                  <input type="password" class="form-control" name="{{ form.password2.html_name }}">
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
+              <!-- /.form group -->
+              <div class="form-group">
+                <label>description:</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa-audio-description"></i>
+                  </div>
+                  <input type="text" class="form-control" name="{{ form.description.html_name }}">
+                </div>
+                <!-- /.input group -->
+              </div>
+
+               <div>
+                  <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+              </div>
+            </div>
+              </form>
+            <!-- /.box-body -->
+          </div>
+        </row>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+   $(function() {
+       $("#sel").trigger('onchange')
+
+
+    });
+
+  function auth_way(value){
+      if( value == 'password'){
+        $('#key-block').css('display','none');
+        $('#password-block').show();
+      }else{
+        $('#password-block').css('display','none');
+        $('#key-block').show();
+      }
+
+
+  }
+</script>
+{% endblock %}

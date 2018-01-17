@@ -1,0 +1,99 @@
+{% extends 'index_template.html'%}
+{% load static %}
+{% block extra_head %}
+      <link rel="stylesheet" href="{% static "dist/css/xterm.css" %}">
+{% endblock %}
+
+{% block content %}
+    <br>
+    <row>
+        <div class="container">
+
+          <div id="terminal-container"></div>
+        </div>
+     </row>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "dist/js/xterm.js" %}"></script>
+    <script src="{% static "dist/js/fit.js" %}"></script>
+    <script src="{% static "dist/js/terminado.js" %}"></script>
+    <script type="text/javascript">
+    var wsUri ="ws://localhost:8080/webterminal/";
+    var term = new Terminal({
+    	 	cols: 90,
+            rows: 40,
+            screenKeys: true,
+            useStyle: true,
+            cursorBlink: true,
+    	});
+    websocket = new WebSocket(wsUri);
+    function init() {
+        testWebSocket();
+    }
+    function testWebSocket() {
+
+		term.open(document.getElementById('terminal-container'));
+        websocket.onopen = function(evt) {
+            onOpen(evt)
+        };
+        websocket.onclose = function(evt) {
+            onClose(evt)
+        };
+        websocket.onmessage = function(evt) {
+			console.log('onmessage');
+            onMessage(evt)
+        };
+        websocket.onerror = function(evt) {
+            onError(evt)
+        };
+    }
+
+    function onOpen(evt) {
+    	term.fit();
+		term.resize(term.cols, term.rows);
+		doSend(JSON.stringify({'login':{'manage_ip':'{{ manage_ip }}','system_user_name':'{{ system_user_name }}','asset_name':'{{ asset_name }}','user':'{{ user }}','asset_group_name':'{{ asset_group_name }}','system_user_perm':'{{ system_user_perm }}'}}))
+
+    }
+
+	term.on('data', function(data) {
+			doSend(JSON.stringify({'stdin':data}));
+
+          });
+
+
+    function onClose(evt) {
+        writeToScreen("DISCONNECTED");
+    }
+
+    function onMessage(evt) {
+
+        var data = jQuery.parseJSON(evt.data);
+        if(data[0] == 'disconnect'){
+            writeToScreen(data[1]);
+            websocket.close();
+        }
+        writeToScreen(data[1]);
+    }
+
+    function onError(evt) {
+        writeToScreen(evt.data);
+    }
+
+    function doSend(message) {
+
+        websocket.send(message);
+    }
+
+    function writeToScreen(message) {
+
+        term.write(message);
+    }
+	$(function(){
+		window.addEventListener("load", init(), false);
+
+   });
+
+    </script>
+
+{% endblock %}

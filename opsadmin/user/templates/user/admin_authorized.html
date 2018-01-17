@@ -1,0 +1,30 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+    <br>
+    <row>
+             <form action="" method="post">
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              {{ error }}
+                 <div class="form-group">
+                <label class="col-md-2 control-label">随机验证码</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="Random Code" required="" name="random_code">
+                </div>
+            </div>
+                 <br>
+                  <div class="form-group">
+                <label class="col-md-2 control-label">是否授权</label>
+                <div class="col-md-9">
+                    <input type="radio" name="permit" value="yes">确定授权<br>
+                    <input type="radio" name="permit" value="no">拒绝授权<br>
+
+                </div>
+            </div>
+
+                 <div>
+                          <button type="submit" class="btn btn-primary btn-block btn-flat">确定</button>
+                      </div>
+             </form>
+        </row>
+{% endblock %}

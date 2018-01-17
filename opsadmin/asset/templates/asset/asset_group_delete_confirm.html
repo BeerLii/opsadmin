@@ -1,0 +1,29 @@
+{% load common_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>删除确认</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>是否确定删除资产组<b>{{ object.name }} </b> ?</p>
+    <br>
+    <p>资产组关联的权限</p>
+
+    {% check_list_empty perm_obj_list as check %}
+    {% if check %}
+        <br>
+        <p>没有关联权限</p>
+
+    {% else %}
+        {% for perm_obj in perm_obj_list %}
+
+            <p>权限名{{ perm_obj.name }}也会被删除</p>
+        {% endfor %}
+    {% endif %}
+    <input type="submit" value="Confirm" />
+</form>
+</body>
+</html>

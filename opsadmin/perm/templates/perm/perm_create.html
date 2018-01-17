@@ -1,0 +1,68 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% block content %}
+<row>
+ <form enctype="multipart/form-data" action="" method="post">
+
+              {% csrf_token %}
+              {% if form.errors %}
+                  {% for k, message in form.errors.items %}
+                    <p class="red-fonts">{{message}}</p>
+                  {% endfor %}
+              {% endif %}
+      <div class="form-group">
+        <label class="col-md-2 control-label">权限名</label>
+        <div class="col-md-9">
+            <input type="text" class="form-control" placeholder="PermName" required="" name="{{ form.name.html_name }}">
+        </div>
+    </div>
+
+     <div class="form-group">
+        <label class="col-md-2 control-label">系统用户</label>
+        <div class="col-md-9">
+             <select class="form-control" name="{{form.system_user_choices.html_name}}">
+                    {% for system_user in form.system_user_choices.field.queryset %}
+                           <option value="{{ system_user.id }}">{{ system_user.name }}</option>
+                    {% endfor %}
+             </select>
+        </div>
+    </div>
+
+     <div class="form-group">
+        <label class="col-md-2 control-label">资产组</label>
+        <div class="col-md-9">
+             <select class="form-control" name="{{form.asset_group_choices.html_name}}">
+                    {% for asset_group in form.asset_group_choices.field.queryset %}
+                           <option value="{{ asset_group.id }}">{{ asset_group.name }}</option>
+                    {% endfor %}
+             </select>
+        </div>
+    </div>
+
+     <div class="form-group">
+        <label class="col-md-2 control-label">授予权限</label>
+        <div class="col-md-9">
+             <select class="form-control" name="{{form.perm.html_name}}">
+                 {% for perm_obj in form.perm %}
+                    {{ perm_obj }}
+                 {% endfor %}
+             </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">描述信息</label>
+         <div class="col-md-9">
+            <textarea type="text" class="form-control" placeholder="Description" name="{{ form.descriptions.html_name }}"></textarea>
+         </div>
+    </div>
+
+     <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-9">
+        <button type="submit" class="btn btn-primary btn-block btn-flat form-control">确定</button>
+        </div>
+    </div>
+ </form>
+    </row>
+{% endblock %}

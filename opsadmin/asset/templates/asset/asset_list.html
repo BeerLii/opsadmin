@@ -1,0 +1,110 @@
+{% extends 'index_template.html' %}
+{% load static %}
+{% load common_tags %}
+{% block content %}
+<br>
+  <row>
+    <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">总资产列表</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              {% paginate asset_list 10 %}
+              <table class="table table-hover">
+                <tr>
+                  <th>ID号</th>
+                  <th>资产名字</th>
+                  <th>资产类型</th>
+                  <th>资产状态</th>
+                  <th>资产环境</th>
+                  <th>管理IP</th>
+                  <th>外部IP</th>
+                  <th>创建时间</th>
+                  <th>描述信息</th>
+                  <th>操作</th>
+                </tr>
+               {% for asset_obj in list %}
+                    <tr>
+                      <td>{{ forloop.counter  }}</td>
+                      <td>{{ asset_obj.name }}</td>
+                      <td>{{ asset_obj.get_asset_type }}</td>
+                      {% if asset_obj.asset_status == 'Online' %}
+                        <td><span class="label label-success">{{ asset_obj.get_asset_status }}</span></td>
+                      {% endif %}
+                      {% if asset_obj.asset_status == 'Not Online' %}
+                        <td><span class="label label-danger">{{ asset_obj.get_asset_status }}</span></td>
+                      {% endif %}
+                      <td>{{ asset_obj.get_asset_env }}</td>
+                      <td>{{ asset_obj.manage_ip }}</td>
+                      <td>{{ asset_obj.external_ip }}</td>
+                      <td>{{ asset_obj.create_date }}</td>
+                      <td>{{ asset_obj.descriptions }}</td>
+                      {% if asset_obj.asset_status == 'Online' %}
+                      <td><a onclick="collect_asset('{{ asset_obj.name }}')"><span class="label label-success">收集资产</span></a>&nbsp;<a href="{% url 'asset:asset_detail' %}?name={{ asset_obj.name }}"><span class="label label-info">资产详细信息</span></a>&nbsp;<a href="{% url 'asset:asset_delete' pk=asset_obj.id %}"><span class="label label-danger">删除资产</span></a></td>
+                      {% else %}
+                      <td><a href="{% url 'asset:asset_delete' pk=asset_obj.id %}"><span class="label label-danger">删除资产</span></a></td>
+
+                      {% endif %}
+                    </tr>
+                {% endfor %}
+              </table>
+
+            </div>
+
+
+            <!-- /.box-body -->
+          </div>
+        {% include 'pagination.html' %}
+          <!-- /.box -->
+        </div>
+</row>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+     $.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     }
+});
+
+        function collect_asset(asset_name) {
+           $.post('/api/asset/collect/',{asset_name:asset_name},function () {
+               
+           })
+           .error(function () {
+
+           })
+        }
+    </script>
+{% endblock %}

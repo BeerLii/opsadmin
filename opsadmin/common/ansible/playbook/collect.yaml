@@ -1,0 +1,17 @@
+---
+- hosts: all
+  tasks:
+   - name: "复制收集脚本"
+     copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: Ansible
+      group: Ansible
+      mode: 0644
+     with_items:
+      - {
+          src: "{{ sysinfo_file }}",
+          dest: "/tmp/sysinfo.py"
+        }
+   - name: "执行收集脚本"
+     shell: "python /tmp/sysinfo.py"
