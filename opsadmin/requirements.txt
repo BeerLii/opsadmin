@@ -57,7 +57,7 @@ PyMySQL==0.7.11
 PyNaCl==1.1.2
 python-memcached==1.58
 pytz==2017.2
-PyYAML==3.12
+PyYAML==5.4
 redis==2.10.6
 requests==2.18.4
 requests-kerberos==0.11.0
