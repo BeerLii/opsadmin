@@ -50,7 +50,7 @@ pyasn1==0.3.7
 pycparser==2.18
 pycrypto==2.6.1
 Pygments==2.2.0
-PyJWT==1.5.3
+PyJWT==2.4.0
 pykerberos==1.1.14
 pyldap==2.4.45
 PyMySQL==0.7.11
